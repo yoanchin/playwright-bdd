@@ -1,0 +1,6 @@
+    Scenario Outline: Search Keyword using data from file
+        When I search for "<searchKey>"
+        Then I get at least <number> results
+        Then it should have "<searchResult>" in search results
+
+        Examples:{'datafile':'resources/testdata.txt'}

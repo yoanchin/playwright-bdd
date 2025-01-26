@@ -1,0 +1,7 @@
+{
+    "require": ["ts-node/register","source-map-support/register"],
+    "recursive": false,
+    "timeout": 2000,
+    "extension": ["ts"],
+    "spec": ["test/_unittest/*.ts","test/_qaf_loadfeature/*.ts"]
+  }

@@ -7,10 +7,23 @@
 
 import { GherkinStreams, IGherkinStreamOptions } from '@cucumber/gherkin-streams';
 import { Query as GherkinQuery } from '@cucumber/gherkin-utils';
-import { Envelope, ParseError, Pickle, GherkinDocument } from '@cucumber/messages';
+import { Envelope, ParseError, Pickle, GherkinDocument, Location } from '@cucumber/messages';
 import { resolveFiles } from '../utils/paths';
 import { toArray } from '../utils';
-import { GherkinDocumentWithPickles } from './types';
+import { Readable } from 'node:stream';
+import { QafDocument } from '../qafbdd/qafDocument';
+import { LodashUtil } from '../qafbdd/lodashUtil';
+import { QafGherkinFactory } from '../qafbdd/qafGherkinFactory';
+import { GherkinFileParser } from '../qafbdd/gherkinFileParser';
+import { Logger } from '../utils/logger';
+let logger: Logger = new Logger({ verbose: false });
+export type GherkinDocumentWithPickles = GherkinDocument & {
+  pickles: PickleWithLocation[];
+};
+
+export type PickleWithLocation = Pickle & {
+  location: Location;
+};
 
 export function resolveFeatureFiles(cwd: string, patterns: string | string[]) {
   return resolveFiles(cwd, toArray(patterns), 'feature');
@@ -32,16 +45,43 @@ export class FeaturesLoader {
   async load(featureFiles: string[], options: IGherkinStreamOptions) {
     this.gherkinQuery = new GherkinQuery();
     this.parseErrors = [];
+    let envelopes: Envelope[] = [];
+    let gherkinFileParser: GherkinFileParser = QafGherkinFactory.getParser();
     // Without this early return gherkinFromPaths() produced weird behavior
     // for reporters: it does not keep exit code
     // See: https://github.com/vitalets/playwright-bdd/issues/200
     if (!featureFiles.length) return;
-    await gherkinFromPaths(featureFiles, options, (envelope) => {
-      this.gherkinQuery.update(envelope);
-      if (envelope.parseError) {
-        this.parseErrors.push(envelope.parseError);
+    // await gherkinFromPaths(featureFiles, options, (envelope) => {
+    //   this.gherkinQuery.update(envelope);
+    //   if (envelope.parseError) {
+    //     this.parseErrors.push(envelope.parseError);
+    //   }
+    // });
+    for(const path of featureFiles){
+      let paths: string[] = [`${path}`];
+      let envelopes_one: Envelope[] = await streamToArray(
+        GherkinStreams.fromPaths(
+          paths,
+          options
+        )
+      )
+      let qafDocuments: QafDocument[] = await gherkinFileParser.qafGherkinFromPaths(paths,options);
+      let enve:Envelope = LodashUtil.setTable(envelopes_one[1],qafDocuments[0]);
+      let pickls:Envelope[] = LodashUtil.genEnvelopesWithPickles(enve,qafDocuments[0]);
+      for(const envelope of envelopes_one){
+        envelopes.push(envelope);
+        if (envelope.parseError) {
+          this.parseErrors.push(envelope.parseError);
+        }
       }
-    });
+      for(const envelope of pickls){
+        logger.log("pickles: " + JSON.stringify(envelope, null, 2));
+        envelopes.push(envelope);
+      }
+    }
+    envelopes.forEach((envelope) => {
+      this.gherkinQuery.update(envelope);
+    })
   }
 
   getDocumentsCount() {
@@ -64,7 +104,9 @@ export class FeaturesLoader {
 
   private getPickleWithLocation(pickle: Pickle) {
     const lastAstNodeId = pickle.astNodeIds[pickle.astNodeIds.length - 1];
+    logger.log("lastAstNodeId: " + lastAstNodeId);
     const location = this.gherkinQuery.getLocation(lastAstNodeId);
+    logger.log("locations: " + JSON.stringify(location, null, 2));
     return { ...pickle, location };
   }
 }
@@ -80,4 +122,20 @@ async function gherkinFromPaths(
     gherkinMessageStream.on('end', resolve);
     gherkinMessageStream.on('error', reject);
   });
+}
+
+async function streamToArray(
+  readableStream: Readable
+): Promise<Envelope[]> {
+  return new Promise<Envelope[]>(
+    (
+      resolve: (wrappers: Envelope[]) => void,
+      reject: (err: Error) => void
+    ) => {
+      const items: Envelope[] = []
+      readableStream.on('data', items.push.bind(items))
+      readableStream.on('error', (err: Error) => reject(err))
+      readableStream.on('end', () => resolve(items))
+    }
+  )
 }

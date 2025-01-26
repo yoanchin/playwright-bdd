@@ -21,16 +21,15 @@ export class Scenario {
     protected testData :any[][] = [];
     public tableHeader?: Types.TableRow;
     public tableBody?: Types.TableRow[];
-    constructor(testName: string, steps: StringTestStep[], metadata?: Map<string, Object>, hasDP?: boolean) {
+    constructor(testName: string, steps: StringTestStep[], hasDP: boolean,metadata?: Map<string, Object>, ) {
         this.priority = Scenario.SCANARIOBASEINDEX + Scenario.scanariocount++;
         this.scenarioName = testName.trim();
         this.steps = steps;
         if (metadata) {
             this.metadata = metadata;
         }
-        if (hasDP) {
-            this.hasDP = hasDP;
-        }
+        this.hasDP = hasDP;
+        
         this.init();
     }
 

@@ -1,0 +1,262 @@
+[
+  {
+    "source": {
+      "data": "Feature: scenario-outline\n\n  Scenario Outline: Search Keyword\n        When I search for \"<searchKey>\"\n        Then I get at least <number> results\n        Then it should have \"<searchResult>\" in search results\n\n        Examples:{'datafile':'testdata/testdata.xlsx','sheetName':'DataTable2','key':'Data1'}\n           | searchKey     | searchResult                          | number |\n           | QMetry QAF    | QMetry Automation Framework           | 10     |\n           | Selenium ISFW | Infostretch Test Automation Framework | 20     |",
+      "uri": "testdata/good/test.feature",
+      "mediaType": "text/x.cucumber.gherkin+plain"
+    }
+  },
+  {
+    "gherkinDocument": {
+      "feature": {
+        "tags": [],
+        "location": {
+          "line": 1,
+          "column": 1
+        },
+        "language": "en",
+        "keyword": "Feature",
+        "name": "scenario-outline",
+        "description": "",
+        "children": [
+          {
+            "scenario": {
+              "id": "2b682c60-412b-4512-a20f-abebb2a67558",
+              "tags": [],
+              "location": {
+                "line": 3,
+                "column": 3
+              },
+              "keyword": "Scenario Outline",
+              "name": "Search Keyword",
+              "description": "",
+              "steps": [
+                {
+                  "id": "55f23a7d-28e9-4b19-8b21-a7e2cf4d7d83",
+                  "location": {
+                    "line": 4,
+                    "column": 9
+                  },
+                  "keyword": "When ",
+                  "keywordType": "Action",
+                  "text": "I search for \"<searchKey>\""
+                },
+                {
+                  "id": "ad6f2bfd-02c1-443f-8455-b1e488ddd021",
+                  "location": {
+                    "line": 5,
+                    "column": 9
+                  },
+                  "keyword": "Then ",
+                  "keywordType": "Outcome",
+                  "text": "I get at least <number> results"
+                },
+                {
+                  "id": "202ef48d-707e-4d4e-b62d-b9490736b660",
+                  "location": {
+                    "line": 6,
+                    "column": 9
+                  },
+                  "keyword": "Then ",
+                  "keywordType": "Outcome",
+                  "text": "it should have \"<searchResult>\" in search results"
+                }
+              ],
+              "examples": [
+                {
+                  "id": "d7fbf553-74c4-4e11-a206-4c4deb85abaf",
+                  "tags": [],
+                  "location": {
+                    "line": 8,
+                    "column": 9
+                  },
+                  "keyword": "Examples",
+                  "name": "{'datafile':'testdata/testdata.xlsx','sheetName':'DataTable2','key':'Data1'}",
+                  "description": "",
+                  "tableHeader": {
+                    "id": "f1744fd9-a2d3-4764-9df3-ee370b54317b",
+                    "location": {
+                      "line": 9,
+                      "column": 12
+                    },
+                    "cells": [
+                      {
+                        "location": {
+                          "line": 9,
+                          "column": 14
+                        },
+                        "value": "searchKey"
+                      },
+                      {
+                        "location": {
+                          "line": 9,
+                          "column": 30
+                        },
+                        "value": "searchResult"
+                      },
+                      {
+                        "location": {
+                          "line": 9,
+                          "column": 70
+                        },
+                        "value": "number"
+                      }
+                    ]
+                  },
+                  "tableBody": [
+                    {
+                      "id": "20a28da3-282e-4861-b746-2e0cf2d48304",
+                      "location": {
+                        "line": 10,
+                        "column": 12
+                      },
+                      "cells": [
+                        {
+                          "location": {
+                            "line": 10,
+                            "column": 14
+                          },
+                          "value": "QMetry QAF"
+                        },
+                        {
+                          "location": {
+                            "line": 10,
+                            "column": 30
+                          },
+                          "value": "QMetry Automation Framework"
+                        },
+                        {
+                          "location": {
+                            "line": 10,
+                            "column": 70
+                          },
+                          "value": "10"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "8a0a023e-490b-45ce-9bc5-971ec7e17d00",
+                      "location": {
+                        "line": 11,
+                        "column": 12
+                      },
+                      "cells": [
+                        {
+                          "location": {
+                            "line": 11,
+                            "column": 14
+                          },
+                          "value": "Selenium ISFW"
+                        },
+                        {
+                          "location": {
+                            "line": 11,
+                            "column": 30
+                          },
+                          "value": "Infostretch Test Automation Framework"
+                        },
+                        {
+                          "location": {
+                            "line": 11,
+                            "column": 70
+                          },
+                          "value": "20"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "comments": [],
+      "uri": "testdata/good/test.feature"
+    }
+  },
+  {
+    "pickle": {
+      "id": "942e3537-31b9-455a-8c37-3a93e6ce577b",
+      "uri": "testdata/good/test.feature",
+      "astNodeIds": [
+        "2b682c60-412b-4512-a20f-abebb2a67558",
+        "20a28da3-282e-4861-b746-2e0cf2d48304"
+      ],
+      "name": "Search Keyword",
+      "language": "en",
+      "steps": [
+        {
+          "id": "ece709d4-a539-4eea-a4b8-cfb6124f1f2f",
+          "text": "I search for \"QMetry QAF\"",
+          "type": "Action",
+          "astNodeIds": [
+            "55f23a7d-28e9-4b19-8b21-a7e2cf4d7d83",
+            "20a28da3-282e-4861-b746-2e0cf2d48304"
+          ]
+        },
+        {
+          "id": "a7e4862b-0d92-4b40-aa76-3ec438ababd5",
+          "text": "I get at least 10 results",
+          "type": "Outcome",
+          "astNodeIds": [
+            "ad6f2bfd-02c1-443f-8455-b1e488ddd021",
+            "20a28da3-282e-4861-b746-2e0cf2d48304"
+          ]
+        },
+        {
+          "id": "aad85144-a9bb-4688-ae36-03b028cc5eb4",
+          "text": "it should have \"QMetry Automation Framework\" in search results",
+          "type": "Outcome",
+          "astNodeIds": [
+            "202ef48d-707e-4d4e-b62d-b9490736b660",
+            "20a28da3-282e-4861-b746-2e0cf2d48304"
+          ]
+        }
+      ],
+      "tags": []
+    }
+  },
+  {
+    "pickle": {
+      "id": "325f8f20-a76a-4397-9431-f373427fa925",
+      "uri": "testdata/good/test.feature",
+      "astNodeIds": [
+        "2b682c60-412b-4512-a20f-abebb2a67558",
+        "8a0a023e-490b-45ce-9bc5-971ec7e17d00"
+      ],
+      "name": "Search Keyword",
+      "language": "en",
+      "steps": [
+        {
+          "id": "7ac6784e-c891-4a82-a4d4-77660f28865e",
+          "text": "I search for \"Selenium ISFW\"",
+          "type": "Action",
+          "astNodeIds": [
+            "55f23a7d-28e9-4b19-8b21-a7e2cf4d7d83",
+            "8a0a023e-490b-45ce-9bc5-971ec7e17d00"
+          ]
+        },
+        {
+          "id": "4a4b4f41-8c2e-4d76-8665-1b628f3f07f3",
+          "text": "I get at least 20 results",
+          "type": "Outcome",
+          "astNodeIds": [
+            "ad6f2bfd-02c1-443f-8455-b1e488ddd021",
+            "8a0a023e-490b-45ce-9bc5-971ec7e17d00"
+          ]
+        },
+        {
+          "id": "715327ac-6e69-4d37-8cc0-82e69f99c251",
+          "text": "it should have \"Infostretch Test Automation Framework\" in search results",
+          "type": "Outcome",
+          "astNodeIds": [
+            "202ef48d-707e-4d4e-b62d-b9490736b660",
+            "8a0a023e-490b-45ce-9bc5-971ec7e17d00"
+          ]
+        }
+      ],
+      "tags": []
+    }
+  }
+]

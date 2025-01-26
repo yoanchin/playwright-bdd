@@ -15,7 +15,8 @@ const logger = console;
 export function execPlaywrightTest(dir, cmd) {
   try {
     const stdout = execPlaywrightTestInternal(dir, cmd);
-    if (process.env.TEST_DEBUG) logger.log('STDOUT:', stdout);
+    //if (process.env.TEST_DEBUG) 
+    logger.log('STDOUT:', stdout);
     // no way to get stderr here.
     // see: https://stackoverflow.com/questions/57484453/how-to-get-err-stderr-from-execsync
     return stdout;

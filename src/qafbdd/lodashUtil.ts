@@ -21,7 +21,7 @@ export class LodashUtil {
             );
             // Iterate over the array and add a new property node to each element
             _.forEach(filteredChildren, (item,index) => {
-                if(scenarios[index].getHasDP()){
+                if(scenarios[index] && scenarios[index].getHasDP()){
                     // Add a new property node and set it to a new object
                     _.set(item, 'scenario.examples[0].tableHeader', qafDocument.getScenarios()[index].tableHeader);
                     _.set(item, 'scenario.examples[0].tableBody', qafDocument.getScenarios()[index].tableBody);

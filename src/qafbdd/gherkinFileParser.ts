@@ -128,7 +128,7 @@ export class GherkinFileParser {
             let dataProvider:boolean = MetaDataHelper.hasDP(metadata);
             // let scenario: Scenario = dataProvider ? new DataDrivenScenario(stepName, steps, metadata)
             //         : new Scenario(stepName, steps, metadata);
-            let scenario: Scenario = new Scenario(stepName, steps, metadata, dataProvider);
+            let scenario: Scenario = new Scenario(stepName, steps, dataProvider,metadata);
             scenarios.push(scenario);
         } else {
             this.logger.log("Excluded SCENARIO - " + stepName + ":" + metadata.get(this.DESCRIPTION));

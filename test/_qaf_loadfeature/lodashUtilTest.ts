@@ -13,6 +13,35 @@ import { Readable } from "node:stream";
 import _ from "lodash";
 
 describe('Lodash Util', function() {
+  it('should trim header into gherkin document', async function() {
+    let gherkinFileParser: GherkinFileParser = QafGherkinFactory.getParser();
+    let filePath = path.resolve(__dirname, 'resource/scenario-outline-trimheader.feature');
+    const featurePaths:string[] = [filePath];
+    const options = {"relativeTo": path.resolve(__dirname)};
+    let qafDocuments: QafDocument[] = await gherkinFileParser.qafGherkinFromPaths(featurePaths,options);
+    assert.equal(qafDocuments.length, 1);
+    assert.equal(qafDocuments[0].scenarios[0].getTestData().length, 3);
+    assert.equal(qafDocuments[0].scenarios[0].getTestData()[0][0]["start"], "2");
+    assert.equal(qafDocuments[0].scenarios[0].getTestData()[0][0]["end"], "4");
+    assert.equal(qafDocuments[0].scenarios[0].getTestData()[1][0]["start"], "3");
+    assert.equal(qafDocuments[0].scenarios[0].getTestData()[1][0]["end"], "6");
+    assert.equal(qafDocuments[0].scenarios[0].getTestData()[2][0]["start"], "4");
+    assert.equal(qafDocuments[0].scenarios[0].getTestData()[2][0]["end"], "8");
+    const envelopes = await streamToArray(
+      GherkinStreams.fromPaths(
+        featurePaths,
+        options
+      )
+    )
+    assert.strictEqual(envelopes.length, 2)
+    LodashUtil.setTable(envelopes[1],qafDocuments[0]);
+    assert.equal(envelopes[1].gherkinDocument?.feature?.children?.length, 1);
+    assert.equal(_.get(envelopes[1],'gherkinDocument.feature.children[0].scenario.examples[0].tableHeader.cells[0].value'),'start');
+    assert.equal(_.get(envelopes[1],'gherkinDocument.feature.children[0].scenario.examples[0].tableHeader.cells[1].value'),'end');
+    assert.equal(_.get(envelopes[1],'gherkinDocument.feature.children[0].scenario.examples[0].tableBody[0].cells[0].value'),'2');
+    assert.equal(_.get(envelopes[1],'gherkinDocument.feature.children[0].scenario.examples[0].tableBody[0].cells[1].value'),'4');
+    });
+
     it('should add table header into gherkin document', async function() {
     let gherkinFileParser: GherkinFileParser = QafGherkinFactory.getParser();
     let filePath = path.resolve(__dirname, 'resource/scenario-outline.feature');

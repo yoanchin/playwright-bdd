@@ -87,6 +87,9 @@ export class ExcelUtil {
             if (i === startRow) {
                 for (let j = startCol; j <= endCol; j++, cj++) {
                     colNames[cj] = sheet.getCell(i, j).value;
+                    if (typeof colNames[cj] === 'string') {
+                        colNames[cj] = colNames[cj].trim();
+                    }
                 }
             } else {
                 let jsonString = '{';
@@ -130,6 +133,9 @@ export class ExcelUtil {
             if (i === startRow) {
                 for (let j = startCol + 1; j < endCol; j++, cj++) {
                     colNames[cj] = sheet.getCell(i, j).value;
+                    if (typeof colNames[cj] === 'string') {
+                        colNames[cj] = colNames[cj].trim();
+                    }
                 }
             } else {
                 let jsonString = '{';

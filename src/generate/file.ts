@@ -26,6 +26,7 @@ import { ExamplesTitleBuilder } from './examplesTitleBuilder';
 import { getTagNames, isScenarioOutline } from '../features/helpers';
 import { StepFinder } from '../steps/finder';
 import { exit } from '../utils/exit';
+import { extractTestCaseIDFromFirstElement } from '../utils/String';
 import { StepDefinition } from '../steps/stepDefinition';
 import { TestFileHooks } from './hooks';
 import { getSpecFileByFeatureFile } from './paths';
@@ -245,7 +246,7 @@ export class TestFile {
 
     scenario.examples.forEach((examples) => {
       examples.tableBody.forEach((exampleRow) => {
-        const testTitle = examplesTitleBuilder.buildTitle(examples, exampleRow);
+        const testTitle = extractTestCaseIDFromFirstElement(getTagNames(scenario.tags)) + examplesTitleBuilder.buildTitle(examples, exampleRow);
         const pickle = this.findPickle(exampleRow.id, testTitle);
         const ownTestTags = getTagNames(examples.tags);
         const testLines = this.renderTest(pickle, testTitle, ownTestTags, scenario.steps);

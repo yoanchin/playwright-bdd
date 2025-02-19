@@ -136,6 +136,7 @@ describe('Excel Util File', function() {
         assert.equal(testData4[1][0]["end"], "6");
         assert.equal(testData4[2][0]["start"], "4");
         assert.equal(testData4[2][0]["end"], "8");
+        assert.equal(testData4.length, 3);
     });
 
     it('should get correct output of getSheetDimensionsFromFileAndSheetName method', async function() {

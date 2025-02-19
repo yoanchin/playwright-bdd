@@ -82,28 +82,57 @@ export class ExcelUtil {
         const tabArray = new Array(endRow - startRow).fill(null).map(() => new Array(1).fill(null));
         const colNames = new Array(endCol - startCol - 1).fill(null);
         let ci = 0;
+        const arrayExceptEmpty = new Array();
+        const colNamesExceptEmpty = new Array();
         for (let i = startRow; i <= endRow; i++) {
             let cj = 0;
             if (i === startRow) {
                 for (let j = startCol; j <= endCol; j++, cj++) {
                     colNames[cj] = sheet.getCell(i, j).value;
-                    if (typeof colNames[cj] === 'string') {
+                    if (colNames[cj] !== null && typeof colNames[cj] === 'string') {
                         colNames[cj] = colNames[cj].trim();
+                    }else{
+                        continue;
+                    }
+                }
+                // check if the array is empty， if no empty, then push the array to colNamesExceptEmpty
+                for (let i = 0; i < colNames.length; i++) {
+                    if (colNames[i] !== null) {
+                        colNamesExceptEmpty.push(colNames[i]);
                     }
                 }
             } else {
+                let skip:boolean = false;
                 let jsonString = '{';
-                for (let j = startCol; j <= endCol; j++, cj++) {
+                for (let j = startCol; j <= colNamesExceptEmpty.length; j++, cj++) {
                     if (jsonString.length > 1) {
                         jsonString += ',';
                     }
-                    jsonString += `"${colNames[cj]}":"${sheet.getCell(i, j).value}"`;
+                    const cellValue = sheet.getCell(i, j).value;
+                    if (cellValue === null || (typeof cellValue === 'string' && cellValue.trim() === '')) {
+                        skip = true;
+                        break;
+                    } else {
+                        jsonString += `"${colNamesExceptEmpty[cj]}":"${sheet.getCell(i, j).value}"`;
+                    }
                 }
                 jsonString += '}';
-                tabArray[ci++][0] = JSON.parse(jsonString);
+                if(!skip){
+                    tabArray[ci++][0] = JSON.parse(jsonString);
+                }else{
+                    ci++;
+                }
             }
         }
-        return tabArray;
+        // check if the array is empty， if no empty, then push the array to arrayExceptEmpty
+        for (let i = 0; i < tabArray.length; i++) {
+            if (tabArray[i][0] !== null) {
+                let newArray = new Array();
+                newArray.push(tabArray[i][0]);
+                arrayExceptEmpty.push(newArray);
+            }
+        }
+        return arrayExceptEmpty;
     }
 
     public static async getWorkbook(file: string): Promise<ExcelJS.Workbook> {

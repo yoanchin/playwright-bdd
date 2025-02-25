@@ -102,7 +102,7 @@ export class ExcelUtil {
                     }
                 }
             } else {
-                let skip:boolean = false;
+                let skip:boolean = true;
                 let jsonString = '{';
                 for (let j = startCol; j <= colNamesExceptEmpty.length; j++, cj++) {
                     if (jsonString.length > 1) {
@@ -110,9 +110,10 @@ export class ExcelUtil {
                     }
                     const cellValue = sheet.getCell(i, j).value;
                     if (cellValue === null || (typeof cellValue === 'string' && cellValue.trim() === '')) {
-                        skip = true;
-                        break;
+                        // cellValue replace with empty string
+                        jsonString += `"${colNamesExceptEmpty[cj]}":"${sheet.getCell(i, j).value}"`;
                     } else {
+                        skip = false;
                         jsonString += `"${colNamesExceptEmpty[cj]}":"${sheet.getCell(i, j).value}"`;
                     }
                 }

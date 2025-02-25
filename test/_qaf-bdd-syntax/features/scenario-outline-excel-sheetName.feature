@@ -1,6 +1,7 @@
 Feature: scenario-outline
 
   Scenario Outline: Check doubled
+    Given TestCase '<testCase>'
     Given State <start>
     Then Doubled <start> equals <end>
 

@@ -7,7 +7,6 @@ node_modules
 npm-debug.log
 
 # my
-/dist
 **/.features-gen/**/*.spec.js
 .cache
 test-results

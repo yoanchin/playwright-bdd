@@ -1,0 +1,1 @@
+{"version":3,"file":"qafDocument.d.ts","sourceRoot":"","sources":["../../src/qafbdd/qafDocument.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,QAAQ,EAAE,MAAM,YAAY,CAAC;AAEtC,qBAAa,WAAW;IACpB,SAAS,EAAE,QAAQ,EAAE,CAAM;IAC3B,YAAY,CAAC,SAAS,EAAE,QAAQ,EAAE;IAGlC,YAAY,IAAI,QAAQ,EAAE;gBAId,SAAS,EAAE,QAAQ,EAAE;CAGpC"}
